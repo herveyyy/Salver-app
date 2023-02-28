@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect} from 'react';
 import {
   getDocs,
   collection,
@@ -11,61 +11,105 @@ import { database } from '../../firebaseConfig';
 const databaseReference = collection(database, 'SoftwareEngineers');
 function DataTable() {
   const [fireData, setFireData] = useState([]);
+  const [show, toggleShow] = useState(false);
+  //getdata
   const getData = async () => {
-    await getDocs(databaseReference)
-    .then((response) => {
-        setFireData(response.docs.map((data) => {
-            return {...data.data(), id: data.id}
-        }))
-    })
-}
-
-    return ( 
+    const response = await getDocs(databaseReference);
+    const data = response.docs.map((data) => {
+      return { ...data.data(), id: data.id };
+    });
+    setFireData(data);
+  };
+//delete
+  const handleDelete = async (id) => {
+    try {
+      console.log('Deleting document with id', id);
+      await deleteDoc(doc(databaseReference, id)); 
+      console.log('Document with id', id, 'successfully deleted!');
+    getData();
+    } catch (error) {
+      console.error('Error deleting document:', error);
+    }
+   
+  };
+//print
+  const handlePrint = () => {
+    console.log("Sdas")
+    toggleShow(!show);
+    if(show == true){
+      window.print();
+      window.location.reload(true)
+    }
     
-        <div ref={getData} className="relative overflow-x-auto">
-        <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-          <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-            <tr>
-           
-              <th scope="col" className="px-6 py-3">
-                Engineers Name
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Email Address
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Skills
-              </th>
-              <th scope="col" className="px-6 py-3">
-                <span></span>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-          {fireData.map((data) => {
-  return (
-    <tr key={data.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-      <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-        {data.engineerName}
-      </th>
-      <td className="px-6 py-4">{data.emailAddress}</td>
-      <td className="px-6 py-4">
-        <ul className="list-disc list-inside">
-          {data.skills.map((skill) => (
-            <li key={skill}>{skill}</li>
-          ))}
-        </ul>
-      </td>
-      <td className="px-6 py-4">
-        <a className="text-red-800 hover:text-red-500 cursor-pointer">Delete</a>
-      </td>
-    </tr>
-  );
-})}
-          </tbody>
-        </table>
-        
-      </div> );
-}
+  };
 
+  //render table data
+  useEffect(() => {
+    getData();
+  }, []);
+
+  return (
+    <div className="relative overflow-x-auto">
+      <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+          <tr>
+            <th scope="col" className="px-6 py-3">
+              Engineers Name
+            </th>
+            <th scope="col" className="px-6 py-3">
+              Email Address
+            </th>
+            <th scope="col" className="px-6 py-3">
+              Skills
+            </th>
+            <th scope="col" className="px-6 py-3">
+              <span></span>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {fireData.map((data) => {
+            return (
+              <tr
+                key={data.id}
+                className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+              >
+                <th
+                  scope="row"
+                  className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                >
+                  {data.engineerName}
+                </th>
+                <td className="px-6 py-4">{data.emailAddress}</td>
+                <td className="px-6 py-4">
+                  <ul className="list-disc list-inside">
+                    {data.skills.map((skill) => (
+                      <li key={skill}>{skill}</li>
+                    ))}
+                  </ul>
+                </td>
+                {!show && <td className="px-6 py-4">
+                   <a 
+                   onClick={() => handleDelete(data.id)}
+                   className="text-red-800 hover:text-red-500 cursor-pointer">
+                    Delete
+                  </a>
+                </td>}
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+      <div className="mt-6 pt-3 flex flex-wrap mx-6 border-t justify-center">
+<button 
+onClick={() => handlePrint()}
+className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center">
+  <svg className="fill-current w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z"/></svg>
+  <span>Print</span>
+</button>
+</div>
+    
+    </div>
+  );
+}
 export default DataTable;

@@ -14,6 +14,7 @@ function EngineerForm({ isOpen, onClose }) {
     const databaseRef = collection(database, 'SoftwareEngineers');
     const [skillCount, setSkillCount] = useState(0);
     const handleSubmit = (event) => {
+      if(skills.length != 0){
         event.preventDefault();
         addData();
         console.log({ engineerName, emailAddress, skills }, " added");
@@ -22,7 +23,15 @@ function EngineerForm({ isOpen, onClose }) {
         setEmailAddress("");
         setSkills([]);
         onClose();
-      
+      }else{
+        setSkills([""]);
+        addData();
+        console.log({ engineerName, emailAddress, skills }, " added");
+        alert("Data added to firestore");
+        setEngineerName("");
+        setEmailAddress("");
+        onClose();
+      }
         
       };
       const handleAddSkill = () => {
