@@ -8,7 +8,13 @@ const navigate = useNavigate();
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log({ email, password });
-  navigate("/login");
+    if(email == "admin@gmail.com" && password == 1234){
+      alert("Praise Admin")
+      navigate("/login");
+    }else{
+      alert("not admin!")
+    }
+
 
     onClose();
   }
