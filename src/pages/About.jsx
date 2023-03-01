@@ -11,7 +11,6 @@ function About() {
                  All rights reserved.
             </p>
         </div>
-           
         </div>
     </div>
   )

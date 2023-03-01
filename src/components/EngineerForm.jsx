@@ -4,6 +4,7 @@ import {
   collection
 } from 'firebase/firestore';
 import { database } from "../../firebaseConfig";
+import CustomModal from "./CustomModal";
 
 function EngineerForm({ isOpen, onClose }) {
 
@@ -13,26 +14,34 @@ function EngineerForm({ isOpen, onClose }) {
     const [newSkill, setNewSkill] = useState("");
     const databaseRef = collection(database, 'SoftwareEngineers');
     const [skillCount, setSkillCount] = useState(0);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const handleOpenModal = () => {
+      setIsModalOpen(true);
+    };
+  
+    const handleCloseModal = () => {
+      setIsModalOpen(false);
+    };
     const handleSubmit = (event) => {
       if(skills.length != 0){
         event.preventDefault();
         addData();
-        console.log({ engineerName, emailAddress, skills }, " added");
-        alert("Data added to firestore");
+        console.log({engineerName, emailAddress, skills}, " added");
+        handleOpenModal()
         setEngineerName("");
         setEmailAddress("");
         setSkills([]);
-        onClose();
+        
       }else{
         setSkills([""]);
         addData();
-        console.log({ engineerName, emailAddress, skills }, " added");
-        alert("Data added to firestore");
+        console.log({engineerName, emailAddress, skills}, " added");
+        handleOpenModal()
         setEngineerName("");
         setEmailAddress("");
-        onClose();
+
       }
-        
+      
       };
       const handleAddSkill = () => {
         if(skillCount < 10  && newSkill != ""){
@@ -125,7 +134,6 @@ function EngineerForm({ isOpen, onClose }) {
             placeholder="Skills"
             value={newSkill}
             onChange={(e) => setNewSkill(e.target.value)}
-           
           />
           <button
             type="button"
@@ -135,7 +143,6 @@ function EngineerForm({ isOpen, onClose }) {
             +
           </button>
         </div>
-        
         <ul className="list-disc list-inside">
           {
           
@@ -155,6 +162,7 @@ function EngineerForm({ isOpen, onClose }) {
     </form>
             </div>
           </div>
+          <CustomModal isOpen={isModalOpen} onClose={handleCloseModal} title={"🦊Firebase"} details={"Information Added"}/>
         </div>
       )}
     </>
