@@ -20,7 +20,7 @@ function Profile() {
       </div>
       
       <div className="mt-6 pt-3 flex flex-wrap mx-6 border-t justify-center">
-        <div className="text-sm font-bold mr-2 my-1 uppercase tracking-wider border px-2 text-indigo-600 border-indigo-600 bg-indigo-600 text-indigo-100 cursor-default">
+        <div className="text-sm font-bold mr-2 my-1 uppercase tracking-wider border px-2  border-indigo-600 bg-indigo-600 text-indigo-100 cursor-default">
           What if 
         </div>
         <div className="text-xs mr-2 my-1 uppercase tracking-wider border px-2 text-indigo-600 border-indigo-600 hover:bg-indigo-600 hover:text-indigo-100 cursor-default">
