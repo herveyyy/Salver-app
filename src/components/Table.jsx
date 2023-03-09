@@ -44,9 +44,10 @@ function DataTable() {
   };
 
   //render table data
-  useEffect(() => {
-    getData();
-  }, []);
+
+  // useEffect(() => {
+  //   getData();
+  // }, []);
 
   return (
     <div className="relative overflow-x-auto">
@@ -100,13 +101,25 @@ function DataTable() {
           })}
         </tbody>
       </table>
-      <div className="mt-6 pt-3 flex flex-wrap mx-6 border-t justify-center">
+      <div className="mt-6 pt-3 flex flex-wrap mx-6 border-t justify-center ">
+        <div className='px-2'>
 <button 
 onClick={() => handlePrint()}
 className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center">
   <svg className="fill-current w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z"/></svg>
   <span>Print</span>
 </button>
+</div>
+<div className='px-2'>
+<button 
+onClick={() => getData()}
+className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center">
+  <svg className=" w-6 h-6" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75l3 3m0 0l3-3m-3 3v-7.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+</svg>
+  <span>Display Data</span>
+</button>
+</div>
 </div>
     
     </div>
