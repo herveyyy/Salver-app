@@ -1,6 +1,6 @@
 {
-  "name": "swapper",
-  "version": "0.0.0",
+  "name": "Salver-app",
+  "version": "0.0.2",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
